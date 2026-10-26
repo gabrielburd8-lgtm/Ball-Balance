@@ -363,8 +363,8 @@ func _spawn_hold_box() -> void:
     var color = Color.from_hsv((float(box_counter) * 0.13) + 0.52, 0.75, 0.9)
     box.configure(size, color, mass_value)
     box.position = Vector2(current_level_data["spawn_x"], current_level_data["spawn_y"])
-    box.mode = RigidBody2D.MODE_KINEMATIC
     box.freeze = true
+    box.gravity_scale = 0.0
     box.set_meta("is_hold_box", true)
     box.set_meta("size_value", size)
     box.name = "HeldBox%s" % box_counter
@@ -385,8 +385,8 @@ func _process(delta: float) -> void:
         active_box.rotation = 0.0
         active_box.linear_velocity = Vector2.ZERO
         active_box.angular_velocity = 0.0
-        active_box.mode = RigidBody2D.MODE_KINEMATIC
         active_box.freeze = true
+        active_box.gravity_scale = 0.0
 
     var boxes = get_tree().get_nodes_in_group("boxes")
     if boxes.is_empty():
@@ -430,8 +430,8 @@ func _drop_active_box() -> void:
     if active_box == null:
         return
 
-    active_box.mode = RigidBody2D.MODE_RIGID
     active_box.freeze = false
+    active_box.gravity_scale = 1.0
     active_box.linear_velocity = Vector2.ZERO
     active_box.angular_velocity = 0.0
     active_box.position.y += 2.0
